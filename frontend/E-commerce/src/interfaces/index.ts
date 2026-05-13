@@ -12,3 +12,10 @@ export interface IPrivateRoute {
 export interface IMainLayout {
     children: React.ReactNode
 }
+
+export interface IProduct {
+    _id: string
+    title: string,
+    price: number,
+    quantity: number
+}

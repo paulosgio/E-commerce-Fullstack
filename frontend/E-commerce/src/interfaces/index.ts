@@ -5,6 +5,11 @@ export interface IAuth {
     password: string
 } 
 
+export interface IMe {
+    _id: string,
+    username: string
+}
+
 export interface IPrivateRoute {
     children: React.ReactNode
 }
@@ -17,5 +22,20 @@ export interface IProduct {
     _id: string
     title: string,
     price: number,
+}
+
+export interface ICart {
+    userId: string,
+    products: ICartItem[]
+    total: number
+}
+
+export interface ICartItem {
+    productId: IProduct,
     quantity: number
+}
+
+export interface IAddToCart {
+    productId: string,
+    quantity?: number
 }

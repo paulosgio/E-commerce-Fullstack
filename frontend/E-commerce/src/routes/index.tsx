@@ -20,7 +20,7 @@ export function AppRoutes() {
                         </MainLayout>
                     </PrivateRoute>
                 }/>
-                <Route path="/product" element={
+                <Route path="/home/product/:id" element={
                     <PrivateRoute>
                         <MainLayout>
                             <Product/>

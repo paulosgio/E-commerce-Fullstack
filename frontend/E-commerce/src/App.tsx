@@ -1,9 +1,13 @@
-import './App.css'
+import './index.css'
 import { AppRoutes } from './routes'
+import { Toaster } from "sonner"
 
 function App() {
   return (
-    <AppRoutes/>
+    <>
+      <AppRoutes/>
+      <Toaster richColors position='bottom-right'/>
+    </>
   )
 }
 

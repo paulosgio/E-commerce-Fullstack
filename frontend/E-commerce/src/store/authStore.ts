@@ -2,6 +2,7 @@ import { create } from "zustand";
 import type { IAuth, IMe } from "../interfaces";
 import { MeService } from "../services/MeService";
 import { LoginService } from "../services/AuthServices";
+import { api } from "../api/api";
 
 interface IAuthStore {
     me: IMe | null,
@@ -28,17 +29,23 @@ export const useAuthStore = create<IAuthStore>((set)=> ({
 
     logOut: ()=> {
         localStorage.removeItem("token")
+        delete api.defaults.headers.common["Authorization"]
         set({me: null, token: null})
     },
 
     login: async (data: IAuth) => {
         try {
             const token = await LoginService(data)
+            if (!token) {
+                throw new Error("Invalid credentials");
+            }
             localStorage.setItem("token", token)
+            api.defaults.headers.common["Authorization"] = `Bearer ${token}`
             const me = await MeService()
             set({token, me})
         } catch (error) {
-            console.log(error);
+            throw error
+            
         }
     }
 }))

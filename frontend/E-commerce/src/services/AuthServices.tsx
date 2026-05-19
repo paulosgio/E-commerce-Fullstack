@@ -6,6 +6,7 @@ export async function LoginService(data: IAuth) {
         const response = await api.post("/login", data)
         return response.data
     } catch (error) {
-        console.log(error);
+        throw new Error("erro");
+        
     }
 }

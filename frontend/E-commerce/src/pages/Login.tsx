@@ -2,15 +2,21 @@ import { useForm } from "react-hook-form"
 import type { IAuth } from "../interfaces"
 import { useNavigate } from "react-router"
 import { useAuthStore } from "../store/authStore"
+import { useState } from "react"
 
 export default function Login() {
-    const { register, handleSubmit } = useForm<IAuth>()
+    const { register, handleSubmit, formState: { errors } } = useForm<IAuth>()
     const navigate = useNavigate()
     const { login } = useAuthStore()
+    const [errorMessage, setErrorMessage] = useState<string>("")
 
     const onSubmit = async (data: IAuth) => {
-        await login(data)
-        navigate("/home")
+        try {
+            await login(data)
+            navigate("/home")
+        } catch (error) {
+            setErrorMessage("Incorrect password/username")
+        }
     }
 
     return (
@@ -39,12 +45,18 @@ export default function Login() {
                         </label>
 
                         <input
-                            {...register("username", { required: true })}
+                            {...register("username", { required: "Username is required" })}
                             type="text"
                             id="username"
                             placeholder="Enter your username"
                             className="w-full rounded-2xl border border-zinc-300 bg-zinc-50 px-4 py-3 outline-none transition focus:border-zinc-900 focus:bg-white"
                         />
+                        {errors.username && (
+                            <p className="text-sm font-medium text-red-500">
+                                {errors.username.message}
+                            </p>
+                        )}
+                        
                     </div>
 
                     <div className="space-y-2">
@@ -56,14 +68,25 @@ export default function Login() {
                         </label>
 
                         <input
-                            {...register("password", { required: true })}
+                            {...register("password", { required: "Password is required" })}
                             type="password"
                             id="password"
                             placeholder="Enter your password"
                             className="w-full rounded-2xl border border-zinc-300 bg-zinc-50 px-4 py-3 outline-none transition focus:border-zinc-900 focus:bg-white"
                         />
+                        {errors.password && (
+                            <p className="text-sm font-medium text-red-500">
+                                {errors.password.message}
+                            </p>
+                        )}
                     </div>
-
+                    {errorMessage && (
+                        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3">
+                            <p className="text-sm font-medium text-red-500">
+                                {errorMessage}
+                            </p>
+                        </div>
+                    )}
                     <button
                         type="submit"
                         className="w-full rounded-2xl bg-zinc-900 py-3 font-medium text-white transition hover:bg-zinc-700 active:scale-[0.98]"

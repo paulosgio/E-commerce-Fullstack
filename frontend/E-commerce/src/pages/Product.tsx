@@ -42,7 +42,7 @@ export default function Product() {
         <div className="min-h-screen bg-zinc-100 px-6 py-10">
             <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm lg:grid-cols-2 lg:p-10">
                 <div className="flex items-center justify-center rounded-3xl bg-zinc-200 p-10">
-                    <div className="flex h-[400px] w-full items-center justify-center rounded-2xl border border-dashed border-zinc-400">
+                    <div className="flex h-100 w-full items-center justify-center rounded-2xl border border-dashed border-zinc-400">
                         <span className="text-lg text-zinc-500">
                             Product Image
                         </span>
@@ -132,3 +132,5 @@ export default function Product() {
         </div>
     )
 }
+
+// SO FALTA AGORA TELA DE CHECKOUT, BOTAR IMAGEM NOS PRODUTOS, NAVEGAÇAO DOS PRODUTOS/CHECKOUT NOS PRODUTOS SINGULARES

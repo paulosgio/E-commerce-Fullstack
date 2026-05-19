@@ -4,8 +4,8 @@ import { auth } from "../middlewares/authMiddleware.js";
 
 const router = Router()
 
-router.get("/:id", auth, ListCart)
-router.post("/addToCart", auth, AddToCart)
-router.post("/:id", auth, removeToCart)
+router.get("/", auth, ListCart)
+router.post("/", auth, AddToCart)
+router.delete("/:id", auth, removeToCart)
 
 export default router

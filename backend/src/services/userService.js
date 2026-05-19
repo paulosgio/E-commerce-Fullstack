@@ -14,7 +14,7 @@ export async function loginService(data) {
     }
     const token = jwt.sign(
         {
-            id: user._id,
+            _id: user._id,
             username: user.username
         },
         process.env.SECRET_TOKEN,
@@ -38,10 +38,19 @@ export async function registerService(data) {
             password: hashedPassword
         })
         return {
-            id: newUser._id,
+            _id: newUser._id,
             username
         }
     } catch (error) {
         throw new Error("Error to register " + error);
+    }
+}
+
+export async function meService(_id) {
+    try {
+        const user = await User.findById(_id).select("-password")
+        return user
+    } catch (error) {
+        throw new Error("User not found");
     }
 }

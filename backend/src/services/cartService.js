@@ -1,8 +1,15 @@
 import Cart from "../models/Cart.js";
+import Products from "../models/Products.js";
 
-export async function addToCartService(data) {
-    const { userId, product } = data
+export async function addToCartService(data, userId) {
+    console.log(data);
+    const { productId, quantity = 1 } = data
+    
     try {
+        const product = await Products.findById(productId)
+        if (!product) {
+            throw new Error("Product not found");
+        }
         let cart = await Cart.findOne({ userId })
         if (!cart) {
             cart = await Cart.create({
@@ -11,18 +18,28 @@ export async function addToCartService(data) {
                 total: 0
             })
         }
-        cart.products.push(product)
-        cart.total += product.price * product.quantity
+        const existingProduct = cart.products.find(item => item.productId.toString() === productId)
+        if (existingProduct) {
+            existingProduct.quantity += quantity
+        } else {
+            cart.products.push({
+                productId,
+                quantity
+            })
+        }
+        cart.total += product.price * quantity
         await cart.save()
-        return data
+        return cart
     } catch (error) {
         throw new Error("error to add on cart: " + error);
     }
 }
 
-export async function listCartService({ _id }) {
+export async function listCartService(userId) {
     try {
-        const cart = await Cart.findOne(_id)
+        let cart = await Cart.findOne({ userId }).populate("products.productId")
+        console.log(cart);
+        
         if (!cart) {
             cart = await Cart.create({
                 userId,
@@ -36,9 +53,24 @@ export async function listCartService({ _id }) {
     }
 }
 
-export async function removeToCartService({ _id }) {
+export async function removeToCartService(productId, userId) {
     try {
-        const cart = await Cart.findOneAndDelete(_id)
+        const product = await Products.findById(productId)
+        const cart = await Cart.findOne({ userId })
+        if (!cart) {
+            throw new Error("Cart not found");
+        }
+        const existingProduct = cart.products.find(item => item.productId.toString() === productId)
+        if (!existingProduct) {
+            throw new Error("Product not in cart");
+        }
+        cart.total -= product.price
+        if (existingProduct.quantity > 1) {
+            existingProduct.quantity -= 1
+        } else {
+            cart.products = cart.products.filter(item => item.productId.toString() !== productId)
+        }
+        cart.save()
         return cart
     } catch (error) {
         throw new Error(error);

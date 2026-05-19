@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react"
-import type { IProduct } from "../interfaces"
-import { GetProducts } from "../services/ProductServices"
+import { useEffect } from "react"
 import { AddToCartService } from "../services/CartServices"
 import { toast } from "sonner"
 import { useNavigate } from "react-router"
+import { useProductStore } from "../store/productStore"
 
 export default function Home() {
-    const [products, setProducts] = useState<IProduct[]>([])
     const navigate = useNavigate()
+    const { getProducts, products } = useProductStore()
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const data = await GetProducts()
-            setProducts(data)
+            await getProducts()
         }
         fetchProducts()
     }, [])
@@ -32,7 +30,7 @@ export default function Home() {
                     </div>
                 </div>
 
-                {products.length > 0 ? (
+                {products && products.length > 0 ? (
                     <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         {products.map(({ price, title, _id }) => {
                             return (
@@ -54,7 +52,7 @@ export default function Home() {
                                             </h3>
 
                                             <p className="mt-2 text-2xl font-bold text-zinc-800">
-                                                R$ {price}
+                                                R$ {price.toFixed(2)}
                                             </p>
                                         </div>
 

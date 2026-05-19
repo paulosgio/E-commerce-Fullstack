@@ -2,7 +2,6 @@ import Cart from "../models/Cart.js";
 import Products from "../models/Products.js";
 
 export async function addToCartService(data, userId) {
-    console.log(data);
     const { productId, quantity = 1 } = data
     
     try {
@@ -70,7 +69,7 @@ export async function removeToCartService(productId, userId) {
         } else {
             cart.products = cart.products.filter(item => item.productId.toString() !== productId)
         }
-        cart.save()
+        await cart.save()
         return cart
     } catch (error) {
         throw new Error(error);

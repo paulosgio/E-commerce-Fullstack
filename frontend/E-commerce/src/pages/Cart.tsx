@@ -50,7 +50,7 @@ export default function Cart() {
                                             </h2>
 
                                             <h3 className="mt-2 text-lg font-bold text-zinc-700">
-                                                R$ {total}
+                                                R$ {total.toFixed(2)}
                                             </h3>
 
                                             <h4 className="mt-1 text-sm text-zinc-500">

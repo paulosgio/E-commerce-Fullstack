@@ -56,7 +56,7 @@ export default function Cart() {
                                             </h2>
 
                                             <h3 className="mt-2 text-lg font-bold text-zinc-700">
-                                                {(productId.price * quantity).toLocaleString("pt-BR", {
+                                                {total.toLocaleString("pt-BR", {
                                                     style: "currency",
                                                     currency: "BRL"
                                                 })}

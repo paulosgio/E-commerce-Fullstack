@@ -14,7 +14,7 @@ export async function showProductService(_id) {
 }
 
 export async function createProductService(data) {
-    const { title, price } = data
+    const { title, price, image } = data
     try {
         const productAlredyExist = await Products.findOne({ title })
         if (productAlredyExist) {
@@ -23,6 +23,7 @@ export async function createProductService(data) {
         const product = await Products.create({
             title,
             price,
+            image
         })
         return product
     } catch (error) {

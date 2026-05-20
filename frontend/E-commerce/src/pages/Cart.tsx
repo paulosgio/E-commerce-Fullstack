@@ -43,19 +43,23 @@ export default function Cart() {
                                     className="flex flex-col gap-5 rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm transition hover:shadow-lg md:flex-row md:items-center md:justify-between"
                                 >
                                     <div className="flex items-center gap-5">
-                                        <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-zinc-200">
-                                            <span className="text-xs text-zinc-500">
-                                                Image
-                                            </span>
+                                        <div className="h-24 w-24 overflow-hidden rounded-2xl bg-zinc-200">
+                                            <img
+                                                src={productId.image}
+                                                alt={productId.title}
+                                                className="h-full w-full object-cover"
+                                            />
                                         </div>
-
                                         <div>
                                             <h2 className="text-xl font-semibold text-zinc-900">
                                                 {productId.title}
                                             </h2>
 
                                             <h3 className="mt-2 text-lg font-bold text-zinc-700">
-                                                R$ {total.toFixed(2)}
+                                                {(productId.price * quantity).toLocaleString("pt-BR", {
+                                                    style: "currency",
+                                                    currency: "BRL"
+                                                })}
                                             </h3>
 
                                             <h4 className="mt-1 text-sm text-zinc-500">

@@ -35,17 +35,19 @@ export default function Home() {
 
                 {products && products.length > 0 ? (
                     <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {products.map(({ price, title, _id }) => {
+                        {products.map(({ price, title, _id, image }) => {
                             return (
                                 <li
                                     onClick={()=> navigate(`/home/product/${_id}`)}
                                     key={_id}
                                     className="group overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                                 >
-                                    <div className="flex h-64 items-center justify-center bg-zinc-200">
-                                        <span className="text-sm text-zinc-500">
-                                            Product Image
-                                        </span>
+                                    <div className="h-64 overflow-hidden bg-zinc-200">
+                                        <img
+                                            src={image}
+                                            alt={title}
+                                            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                                        />
                                     </div>
 
                                     <div className="space-y-4 p-5">
@@ -55,7 +57,10 @@ export default function Home() {
                                             </h3>
 
                                             <p className="mt-2 text-2xl font-bold text-zinc-800">
-                                                R$ {price.toFixed(2)}
+                                                {price.toLocaleString("pt-BR", {
+                                                    style: "currency",
+                                                    currency: "BRL"
+                                                })}
                                             </p>
                                         </div>
 
@@ -87,7 +92,8 @@ export default function Home() {
                                                         productId: {
                                                             _id,
                                                             title,
-                                                            price
+                                                            price,
+                                                            image
                                                         },
                                                         quantity: 1
                                                     }],

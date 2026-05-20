@@ -154,7 +154,13 @@ export default function Checkout() {
                                         key={productId._id}
                                         className="flex items-center gap-4 rounded-2xl bg-zinc-100 p-4"
                                         >
-                                        <div className="h-20 w-20 rounded-2xl bg-zinc-300" />
+                                        <div className="h-20 w-20 overflow-hidden rounded-2xl bg-zinc-300">
+                                            <img
+                                                src={productId.image}
+                                                alt={productId.title}
+                                                className="h-full w-full object-cover"
+                                            />
+                                        </div>
 
                                         <div className="flex-1">
                                             <h3 className="font-semibold text-zinc-900">
@@ -167,7 +173,10 @@ export default function Checkout() {
                                         </div>
 
                                         <span className="font-bold text-zinc-900">
-                                            R$ {productId.price}
+                                            {(productId.price * quantity).toLocaleString("pt-BR", {
+                                                    style: "currency",
+                                                    currency: "BRL"
+                                                })}
                                         </span>
                                     </div>
                                     )
@@ -187,7 +196,10 @@ export default function Checkout() {
                             </span>
 
                             <span className="text-3xl font-bold text-zinc-900">
-                                {total.toFixed(2)}
+                                {total.toLocaleString("pt-BR", {
+                                    style: "currency",
+                                    currency: "BRL"
+                                })}
                             </span>
                         </div>
 

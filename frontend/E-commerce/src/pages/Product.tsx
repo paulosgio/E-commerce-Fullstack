@@ -46,10 +46,12 @@ export default function Product() {
         <div className="min-h-screen bg-zinc-100 px-6 py-10">
             <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm lg:grid-cols-2 lg:p-10">
                 <div className="flex items-center justify-center rounded-3xl bg-zinc-200 p-10">
-                    <div className="flex h-100 w-full items-center justify-center rounded-2xl border border-dashed border-zinc-400">
-                        <span className="text-lg text-zinc-500">
-                            Product Image
-                        </span>
+                    <div className="h-100 w-full overflow-hidden rounded-2xl border border-dashed border-zinc-400">
+                        <img
+                            className="h-full w-full object-cover"
+                            src={product.image}
+                            alt={product.title}
+                        />
                     </div>
                 </div>
 
@@ -70,7 +72,10 @@ export default function Product() {
 
                         <div className="mt-8">
                             <span className="text-5xl font-bold text-zinc-900">
-                                R$ {product.price.toFixed(2)}
+                                {product.price.toLocaleString("pt-BR", {
+                                    style: "currency",
+                                    currency: "BRL"
+                                })}
                             </span>
                         </div>
                     </div>
@@ -99,7 +104,8 @@ export default function Product() {
                                     productId: {
                                         _id: product._id,
                                         title: product.title,
-                                        price: product.price
+                                        price: product.price,
+                                        image: product.image
                                     },
                                     quantity: 1
                                 }], "buy_now")

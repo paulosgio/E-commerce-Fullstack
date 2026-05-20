@@ -13,3 +13,7 @@ export async function DeleteItemFromCartService(product_id: string) {
 export async function AddToCartService(data: IAddToCart) {
     await api.post("/cart", data)
 }
+
+export async function ClearCartService() {
+    await api.delete("/cart/clear")
+}

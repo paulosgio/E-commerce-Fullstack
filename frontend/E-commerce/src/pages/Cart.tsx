@@ -1,8 +1,12 @@
 import { useEffect } from "react"
 import { useCartStore } from "../store/cartStore"
+import { useNavigate } from "react-router"
+import { useCheckoutStore } from "../store/checkoutStore"
 
 export default function Cart() {
     const { cart, deleteItemFromCart, getCart, total } = useCartStore()
+    const navigate = useNavigate()
+    const { setCheckoutItems } = useCheckoutStore()
 
     const fetchCart = async () => {
         try {
@@ -30,6 +34,7 @@ export default function Cart() {
                 </div>
 
                 {cart && cart.length > 0 ? (
+                    <>
                     <ul className="space-y-5">
                         {cart.map(({ productId, quantity }) => {
                             return (
@@ -71,6 +76,19 @@ export default function Cart() {
                             )
                         })}
                     </ul>
+                        <div className="mt-8 flex justify-end">
+                            <button
+                                onClick={() => {
+                                    setCheckoutItems(cart, "cart")
+                                    navigate("/checkout")
+                                }}
+                                className="rounded-2xl bg-zinc-900 px-8 py-4 text-sm font-semibold text-white transition hover:bg-zinc-700 active:scale-[0.98]"
+                            >
+                                Checkout
+                            </button>
+                        </div>
+                    </>
+                    
                 ) : (
                     <div className="flex h-[50vh] flex-col items-center justify-center rounded-3xl border border-dashed border-zinc-300 bg-white">
                         <h1 className="text-3xl font-bold text-zinc-700">

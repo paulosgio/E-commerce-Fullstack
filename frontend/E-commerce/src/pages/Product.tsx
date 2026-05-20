@@ -1,16 +1,20 @@
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { useProductStore } from "../store/productStore"
 import { useEffect } from "react"
 import { useCartStore } from "../store/cartStore"
 import { toast } from "sonner"
+import { useCheckoutStore } from "../store/checkoutStore"
 
 
 export default function Product() {
     const { id } = useParams()
 
     const { getProducts, products } = useProductStore()
+    const { setCheckoutItems } = useCheckoutStore()
 
     const { addToCart } = useCartStore()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -90,6 +94,17 @@ export default function Product() {
                         </button>
 
                         <button
+                            onClick={()=> {
+                                setCheckoutItems([{
+                                    productId: {
+                                        _id: product._id,
+                                        title: product.title,
+                                        price: product.price
+                                    },
+                                    quantity: 1
+                                }], "buy_now")
+                                navigate("/checkout")
+                            }}
                             className="rounded-2xl border border-zinc-300 bg-white px-8 py-4 text-sm font-semibold text-zinc-800 transition hover:border-zinc-900 hover:bg-zinc-100"
                         >
                             Buy now
@@ -133,4 +148,4 @@ export default function Product() {
     )
 }
 
-// SO FALTA AGORA TELA DE CHECKOUT, BOTAR IMAGEM NOS PRODUTOS, NAVEGAÇAO DOS PRODUTOS/CHECKOUT NOS PRODUTOS SINGULARES
+// SO FALTA AGORA BOTAR IMAGEM NOS PRODUTOS, NAVEGAÇAO DOS PRODUTOS, tratar formularios do checkoue para so dar checkout se tiverem preenchidos

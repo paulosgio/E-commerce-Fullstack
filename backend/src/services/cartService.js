@@ -37,7 +37,6 @@ export async function addToCartService(data, userId) {
 export async function listCartService(userId) {
     try {
         let cart = await Cart.findOne({ userId }).populate("products.productId")
-        console.log(cart);
         
         if (!cart) {
             cart = await Cart.create({
@@ -74,4 +73,19 @@ export async function removeToCartService(productId, userId) {
     } catch (error) {
         throw new Error(error);
     }
+}
+
+export async function clearCartService(userId) {
+    const cart = await Cart.findOne({ userId })
+
+    if (!cart) {
+        return
+    }
+
+    cart.products = []
+    cart.total = 0
+
+    await cart.save()
+
+    return cart
 }

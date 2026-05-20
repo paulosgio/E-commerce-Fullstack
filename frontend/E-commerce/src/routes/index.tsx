@@ -6,6 +6,7 @@ import Cart from "../pages/Cart";
 import Home from "../pages/Home";
 import Product from "../pages/Product";
 import MainLayout from "../layout/mainLayout";
+import Checkout from "../pages/Checkout";
 
 export function AppRoutes() {
     return(
@@ -31,6 +32,13 @@ export function AppRoutes() {
                     <PrivateRoute>
                         <MainLayout>
                             <Home/>
+                        </MainLayout>
+                    </PrivateRoute>
+                }/>
+                <Route path="/checkout" element={
+                    <PrivateRoute>
+                        <MainLayout>
+                            <Checkout/>
                         </MainLayout>
                     </PrivateRoute>
                 }/>

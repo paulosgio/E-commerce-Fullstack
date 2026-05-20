@@ -1,13 +1,14 @@
 import { create } from "zustand";
 import type { IAddToCart, ICart, ICartItem } from "../interfaces";
-import { AddToCartService, DeleteItemFromCartService, GetCartService } from "../services/CartServices";
+import { AddToCartService, ClearCartService, DeleteItemFromCartService, GetCartService } from "../services/CartServices";
 
 interface ICartStore {
     cart: ICartItem[] | null,
     getCart: ()=> Promise<void>
     deleteItemFromCart: (productId: string)=> Promise<void>,
     addToCart: (data: IAddToCart)=> Promise<void>
-    total: number
+    total: number,
+    clearCart: ()=> Promise<void>
 }
 
 export const useCartStore = create<ICartStore>((set)=> ({
@@ -51,5 +52,10 @@ export const useCartStore = create<ICartStore>((set)=> ({
         } catch (error) {
             console.log(error);
         }
+    },
+
+    clearCart: async ()=> {
+        await ClearCartService()
+        set({ cart: [] })
     }
 }))

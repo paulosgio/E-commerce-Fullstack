@@ -3,10 +3,13 @@ import { AddToCartService } from "../services/CartServices"
 import { toast } from "sonner"
 import { useNavigate } from "react-router"
 import { useProductStore } from "../store/productStore"
+import { useCheckoutStore } from "../store/checkoutStore"
 
 export default function Home() {
     const navigate = useNavigate()
     const { getProducts, products } = useProductStore()
+    const { setCheckoutItems } = useCheckoutStore()
+    
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -56,22 +59,46 @@ export default function Home() {
                                             </p>
                                         </div>
 
-                                        <button
-                                            onClick={async (e) => {
-                                                e.stopPropagation()
-                                                try {
-                                                    await AddToCartService({
-                                                    productId: _id
-                                                    })
-                                                    toast.success("Product added to cart!")
-                                                } catch (error) {
-                                                    toast.error("Error adding product")
-                                                }
-                                            }}
-                                            className="w-full rounded-2xl bg-zinc-900 py-3 font-medium text-white transition hover:bg-zinc-700 active:scale-[0.98]"
-                                        >
-                                            Add to cart
-                                        </button>
+                                        <div className="flex flex-col gap-3 sm:flex-row">
+                                            <button
+                                                onClick={async (e) => {
+                                                    e.stopPropagation()
+
+                                                    try {
+                                                        await AddToCartService({
+                                                            productId: _id
+                                                        })
+
+                                                        toast.success("Product added to cart!")
+
+                                                    } catch (error) {
+                                                        toast.error("Error adding product")
+                                                    }
+                                                }}
+                                                className="flex-1 rounded-2xl bg-zinc-900 py-3 font-medium text-white transition hover:bg-zinc-700 active:scale-[0.98]"
+                                            >
+                                                Add to cart
+                                            </button>
+
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    setCheckoutItems([{
+                                                        productId: {
+                                                            _id,
+                                                            title,
+                                                            price
+                                                        },
+                                                        quantity: 1
+                                                    }],
+                                                     "buy_now")
+                                                    navigate("/checkout")
+                                                }}
+                                                className="flex-1 rounded-2xl border border-zinc-300 bg-white py-3 font-medium text-zinc-900 transition hover:border-zinc-900 hover:bg-zinc-100 active:scale-[0.98]"
+                                            >
+                                                Buy now
+                                            </button>
+                                        </div>
                                     </div>
                                 </li>
                             )

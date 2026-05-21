@@ -6,6 +6,7 @@ import RegisterRoute from "./src/routes/RegisterRouter.js"
 import LoginRoute from "./src/routes/LoginRoute.js"
 import MeRoute from "./src/routes/MeRoute.js"
 import { auth } from "./src/middlewares/authMiddleware.js"
+import Products from "./src/models/Products.js";
 
 export const app = express()
 
@@ -17,7 +18,7 @@ app.use("/register", RegisterRoute)
 app.use("/login", LoginRoute)
 app.use("/me", MeRoute)
 app.post("/seed-products", async (req, res) => {
-    await Product.insertMany([
+    await Products.insertMany([
         {
             title: "iPhone 15 Pro Max",
             price: 8999,

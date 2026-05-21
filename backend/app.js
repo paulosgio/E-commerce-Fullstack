@@ -10,7 +10,7 @@ import { auth } from "./src/middlewares/authMiddleware.js"
 export const app = express()
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({origin: "https://e-commerce-fullstack-tawny.vercel.app/"}))
 app.use("/products", ProductRoutes)
 app.use("/cart", CartRoutes)
 app.use("/register", RegisterRoute)

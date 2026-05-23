@@ -4,7 +4,7 @@ import { useNavigate } from "react-router"
 import { useCheckoutStore } from "../store/checkoutStore"
 
 export default function Cart() {
-    const { cart, deleteItemFromCart, getCart, total } = useCartStore()
+    const { cart, deleteItemFromCart, getCart } = useCartStore()
     const navigate = useNavigate()
     const { setCheckoutItems } = useCheckoutStore()
 
@@ -56,7 +56,7 @@ export default function Cart() {
                                             </h2>
 
                                             <h3 className="mt-2 text-lg font-bold text-zinc-700">
-                                                {total.toLocaleString("pt-BR", {
+                                                {productId.price.toLocaleString("pt-BR", {
                                                     style: "currency",
                                                     currency: "BRL"
                                                 })}
